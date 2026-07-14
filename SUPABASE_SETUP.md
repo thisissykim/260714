@@ -13,12 +13,19 @@ create table if not exists public.lotto_draws (
   numbers jsonb not null,
   created_at timestamptz not null default now()
 );
+
+alter table public.lotto_draws enable row level security;
+
+revoke all on table public.lotto_draws from anon, authenticated;
+grant select, insert, update, delete on table public.lotto_draws to service_role;
 ```
 
 권장 RLS:
 
 ```sql
-alter table public.lotto_draws enable row level security;
+-- 이 앱은 브라우저에서 Supabase를 직접 호출하지 않음
+-- Vercel 서버리스 함수가 service_role 키로만 접근
+-- 따라서 anon/authenticated 정책은 만들지 않는다
 ```
 
 이 프로젝트는 Vercel 서버리스 함수(`/api/draws`)를 통해 Supabase에 접근합니다.
@@ -29,3 +36,8 @@ alter table public.lotto_draws enable row level security;
 - `GET /api/draws` 최신 10개 결과 읽기
 - `POST /api/draws` 새 추첨 결과 저장
 - `DELETE /api/draws` 전체 기록 삭제
+
+참고:
+
+- Supabase의 service key는 RLS를 우회할 수 있습니다.
+- 그래서 현재 구조에서는 `service_role` 전용 서버 접근만 두고, 브라우저용 공개 정책은 만들지 않는 것이 가장 안전합니다.
