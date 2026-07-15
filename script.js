@@ -163,6 +163,9 @@ async function saveDraw(numbers) {
 
 drawButton.addEventListener('click', async () => {
   drawButton.disabled = true;
+  trackEvent('lotto_draw_button_click', {
+    button_text: '추첨하기',
+  });
   trackEvent('lotto_draw_start', {
     draw_count: history.length + 1,
   });
