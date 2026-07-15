@@ -36,6 +36,12 @@ function persistCache() {
   localStorage.setItem(HISTORY_CACHE_KEY, JSON.stringify(history));
 }
 
+function trackEvent(name, params = {}) {
+  if (typeof window.gtag === 'function') {
+    window.gtag('event', name, params);
+  }
+}
+
 function renderHistory() {
   historyCount.textContent = history.length;
   historyList.innerHTML = history.length
@@ -157,6 +163,9 @@ async function saveDraw(numbers) {
 
 drawButton.addEventListener('click', async () => {
   drawButton.disabled = true;
+  trackEvent('lotto_draw_start', {
+    draw_count: history.length + 1,
+  });
   playIntro();
   drawButton.querySelector('span').textContent = '번호를 고르는 중…';
   ballStage.innerHTML = '<p class="placeholder">행운의 번호를 고르는 중입니다.</p>';
@@ -176,6 +185,11 @@ drawButton.addEventListener('click', async () => {
       await loadHistory();
     }
 
+    trackEvent('lotto_draw_complete', {
+      draw_count: history.length,
+      saved_to_supabase: remoteReady ? 'yes' : 'no',
+    });
+
     drawButton.disabled = false;
     drawButton.querySelector('span').textContent = '다시 뽑기';
   }, 520);
@@ -185,12 +199,19 @@ historyToggle.addEventListener('click', () => {
   const willOpen = historyPanel.hidden;
   historyPanel.hidden = !willOpen;
   historyToggle.setAttribute('aria-expanded', willOpen);
+  trackEvent(willOpen ? 'lotto_history_open' : 'lotto_history_close', {
+    visible_draw_count: history.length,
+  });
 });
 
 clearHistory.addEventListener('click', async () => {
+  const clearedCount = history.length;
   history = [];
   persistCache();
   renderHistory();
+  trackEvent('lotto_history_clear', {
+    cleared_count: clearedCount,
+  });
 
   try {
     await readJson(API_ENDPOINT, { method: 'DELETE' });
