@@ -3,57 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>행운 추첨기</title>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-15G49LR20S"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag('js', new Date());
-      gtag('config', 'G-15G49LR20S');
-    </script>
+    <title>취뽀달력 | 지금 시작할 취업 준비</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <nav class="global-nav" aria-label="주요 메뉴"><span class="brand-mark" aria-label="Lucky">✦</span><span>행운 추첨</span><span>지난 결과</span><span>안내</span></nav>
-    <nav class="sub-nav" aria-label="추첨 메뉴"><strong>행운 추첨기</strong><span>매일 새로운 번호</span></nav>
-    <main class="page-shell">
-      <section class="hero" aria-labelledby="title">
-        <h1 id="title">오늘의 행운을<br />만나보세요.</h1>
-        <p class="subtitle">1부터 45까지, 당신만을 위한 여섯 개의 숫자</p>
-      </section>
-
-      <section class="draw-card" aria-label="로또 번호 추첨기">
-        <div class="magic-burst" id="magic-burst" aria-hidden="true"></div>
-        <div class="card-top">
-          <span class="round-label"><i></i> DRAW 01</span>
-          <button class="history-toggle" type="button" aria-expanded="false" aria-controls="history-panel">
-            지난 결과 <span id="history-count">0</span>
-          </button>
-        </div>
-
-        <div class="ball-stage" id="ball-stage" aria-live="polite">
-          <p class="placeholder">버튼을 눌러 오늘의 번호를 확인하세요</p>
-        </div>
-
-        <button class="draw-button" id="draw-button" type="button">
-          <span>번호 뽑기</span>
-        </button>
-        <p class="hint">번호는 중복 없이 무작위로 추첨되고, 결과는 Supabase에 저장됩니다.</p>
-      </section>
-
-      <section class="history-panel" id="history-panel" hidden>
-        <div class="history-heading">
-          <h2>지난 추첨 결과</h2>
-          <button id="clear-history" type="button">모두 지우기</button>
-        </div>
-        <ul id="history-list"></ul>
-      </section>
-
-      <footer>Copyright © 2026 Lucky Draw. 모든 번호는 무작위로 생성됩니다.</footer>
-    </main>
+    <main id="app"></main>
     <script src="script.js"></script>
   </body>
 </html>
